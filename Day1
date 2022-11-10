@@ -1,0 +1,524 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Хост: 127.0.0.1:3306
+-- Время создания: Ноя 10 2022 г., 21:06
+-- Версия сервера: 8.0.30
+-- Версия PHP: 7.2.34
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- База данных: `college2`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_classroom`
+--
+
+CREATE TABLE `granovskiy_classroom` (
+  `classroom_id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_course`
+--
+
+CREATE TABLE `granovskiy_course` (
+  `course_id` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `special_id` int NOT NULL,
+  `hours` smallint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_course`
+--
+
+INSERT INTO `granovskiy_course` (`course_id`, `name`, `special_id`, `hours`) VALUES
+(1, 'Основы алгоритмизации', 1, 90),
+(2, 'Электротехника', 3, 106),
+(3, 'Основы алгоритмизации', 5, 52),
+(4, 'Мультимедиа технологии', 1, 36),
+(5, 'Техническая механика', 6, 96),
+(6, 'Промышленная электротехника', 4, 108),
+(7, 'Автоматизированные информационные  системы', 1, 86);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_day`
+--
+
+CREATE TABLE `granovskiy_day` (
+  `day_id` tinyint NOT NULL,
+  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_day`
+--
+
+INSERT INTO `granovskiy_day` (`day_id`, `name`) VALUES
+(1, 'Понедельник'),
+(2, 'Вторник'),
+(3, 'Среда'),
+(4, 'Четверг'),
+(5, 'Пятница'),
+(6, 'Суббота'),
+(7, 'Воскресенье ');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_gender`
+--
+
+CREATE TABLE `granovskiy_gender` (
+  `gender_id` tinyint NOT NULL,
+  `name` varchar(10) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_gender`
+--
+
+INSERT INTO `granovskiy_gender` (`gender_id`, `name`) VALUES
+(1, 'Мужской'),
+(2, 'Женский');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_graduate`
+--
+
+CREATE TABLE `granovskiy_graduate` (
+  `graduate_id` int NOT NULL,
+  `gruppa_id` int NOT NULL,
+  `course_id` int NOT NULL,
+  `user_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_graduate_time`
+--
+
+CREATE TABLE `granovskiy_graduate_time` (
+  `graduate_time_id` int NOT NULL,
+  `graduate_id` int NOT NULL,
+  `day_id` tinyint NOT NULL,
+  `lesson_num_id` int NOT NULL,
+  `classroom_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_gruppa`
+--
+
+CREATE TABLE `granovskiy_gruppa` (
+  `gruppa_id` int NOT NULL,
+  `name` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `special_id` int NOT NULL,
+  `date_begin` date NOT NULL,
+  `date_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_gruppa`
+--
+
+INSERT INTO `granovskiy_gruppa` (`gruppa_id`, `name`, `special_id`, `date_begin`, `date_end`) VALUES
+(1, '101 ИС', 1, '2016-09-01', '2020-07-01'),
+(2, '102 АС', 3, '2016-09-01', '2020-07-01'),
+(3, '302 ИС', 1, '2014-09-01', '2018-07-01'),
+(4, '302 АС', 3, '2014-09-01', '2018-07-01'),
+(5, '202 С', 6, '2015-09-01', '2019-07-01'),
+(6, '404 П', 5, '2014-09-01', '2017-07-01'),
+(7, '303 ЭЛ', 4, '2014-09-01', '2018-07-01');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_lesson_num`
+--
+
+CREATE TABLE `granovskiy_lesson_num` (
+  `lesson_num_id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `time_lesson` time NOT NULL,
+  `year_lesson` year NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_otdel`
+--
+
+CREATE TABLE `granovskiy_otdel` (
+  `otdel_id` smallint NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_otdel`
+--
+
+INSERT INTO `granovskiy_otdel` (`otdel_id`, `name`) VALUES
+(1, 'Информационные системы'),
+(2, 'Технические специальности'),
+(3, 'Автоматизация и управление');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_special`
+--
+
+CREATE TABLE `granovskiy_special` (
+  `special_id` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `otdel_id` smallint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_special`
+--
+
+INSERT INTO `granovskiy_special` (`special_id`, `name`, `otdel_id`) VALUES
+(1, 'Информационные системы', 1),
+(2, 'Нефтегазовое дело', 2),
+(3, 'Автоматизация и управление', 3),
+(4, 'Электроснабжение', 3),
+(5, 'Программное обеспечение ВТ и  ПО', 1),
+(6, 'Строительство и эксплуатация  зданий и сооружений', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_student`
+--
+
+CREATE TABLE `granovskiy_student` (
+  `user_id` bigint NOT NULL,
+  `gruppa_id` int NOT NULL,
+  `num_zach` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_student`
+--
+
+INSERT INTO `granovskiy_student` (`user_id`, `gruppa_id`, `num_zach`) VALUES
+(6, 1, 'К1020'),
+(7, 2, 'А5292'),
+(8, 2, 'В8578'),
+(9, 5, 'Р5285'),
+(10, 4, 'Ф5285'),
+(11, 1, 'К7485'),
+(12, 3, 'А2585');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_teacher`
+--
+
+CREATE TABLE `granovskiy_teacher` (
+  `user_id` bigint NOT NULL,
+  `otdel_id` smallint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_teacher`
+--
+
+INSERT INTO `granovskiy_teacher` (`user_id`, `otdel_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 2),
+(5, 2),
+(4, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `granovskiy_user`
+--
+
+CREATE TABLE `granovskiy_user` (
+  `user_id` bigint NOT NULL,
+  `lastname` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `firstname` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `patronomic` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `login` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `pass` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `gender_id` tinyint NOT NULL,
+  `birthday` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `granovskiy_user`
+--
+
+INSERT INTO `granovskiy_user` (`user_id`, `lastname`, `firstname`, `patronomic`, `login`, `pass`, `gender_id`, `birthday`) VALUES
+(1, 'Иванов', 'Иван', 'Иванович', 'IVANOV', '111', 1, '1975-05-25'),
+(2, 'Петров', 'Петр', 'Петрович', 'PETROV', '222', 1, '1980-08-06'),
+(3, 'Козлов', 'Иван', 'Афанасьевич', 'KOZLOV', '333', 1, '1985-04-15'),
+(4, 'Чурюмова', 'Кристина', 'Федоровна', 'KRIS', '444', 2, '1990-05-20'),
+(5, 'Васильев', 'Феофан', 'Александрович', 'PHEOPHAN', '555', 1, '1991-01-13'),
+(6, 'Федорова', 'Милана', 'Андреевна', 'MILANA', '666', 2, '1998-04-15'),
+(7, 'Нуржанов', 'Нуржан', 'Нуржанович', 'NURNUR', '777', 1, '1998-09-18'),
+(8, 'Канатов', 'Канат', 'Канатович', 'KANAT', '888', 1, '1999-07-07'),
+(9, 'Золотая', 'Ирина', 'Кайратовна', 'IRINA', '999', 2, '2000-09-14'),
+(10, 'Серая', 'Арина', 'Радионовна', 'ARINA', '101010', 2, '2001-10-29'),
+(11, 'Петухов', 'Виталий', 'Фадеевич', 'PETUH', '111111', 1, '2000-02-20'),
+(12, 'Котова', 'Аурелия', 'Ароновна', 'KOTOVA', '121212', 2, '2002-12-19');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `granovskiy_classroom`
+--
+ALTER TABLE `granovskiy_classroom`
+  ADD PRIMARY KEY (`classroom_id`);
+
+--
+-- Индексы таблицы `granovskiy_course`
+--
+ALTER TABLE `granovskiy_course`
+  ADD PRIMARY KEY (`course_id`),
+  ADD KEY `special_id` (`special_id`);
+
+--
+-- Индексы таблицы `granovskiy_day`
+--
+ALTER TABLE `granovskiy_day`
+  ADD PRIMARY KEY (`day_id`);
+
+--
+-- Индексы таблицы `granovskiy_gender`
+--
+ALTER TABLE `granovskiy_gender`
+  ADD PRIMARY KEY (`gender_id`);
+
+--
+-- Индексы таблицы `granovskiy_graduate`
+--
+ALTER TABLE `granovskiy_graduate`
+  ADD PRIMARY KEY (`graduate_id`),
+  ADD KEY `gruppa_id` (`gruppa_id`),
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Индексы таблицы `granovskiy_graduate_time`
+--
+ALTER TABLE `granovskiy_graduate_time`
+  ADD PRIMARY KEY (`graduate_time_id`),
+  ADD KEY `classroom_id` (`classroom_id`),
+  ADD KEY `day_id` (`day_id`),
+  ADD KEY `lesson_num_id` (`lesson_num_id`),
+  ADD KEY `graduate_id` (`graduate_id`);
+
+--
+-- Индексы таблицы `granovskiy_gruppa`
+--
+ALTER TABLE `granovskiy_gruppa`
+  ADD PRIMARY KEY (`gruppa_id`),
+  ADD KEY `special_id` (`special_id`);
+
+--
+-- Индексы таблицы `granovskiy_lesson_num`
+--
+ALTER TABLE `granovskiy_lesson_num`
+  ADD PRIMARY KEY (`lesson_num_id`);
+
+--
+-- Индексы таблицы `granovskiy_otdel`
+--
+ALTER TABLE `granovskiy_otdel`
+  ADD PRIMARY KEY (`otdel_id`);
+
+--
+-- Индексы таблицы `granovskiy_special`
+--
+ALTER TABLE `granovskiy_special`
+  ADD PRIMARY KEY (`special_id`),
+  ADD KEY `otdel_id` (`otdel_id`);
+
+--
+-- Индексы таблицы `granovskiy_student`
+--
+ALTER TABLE `granovskiy_student`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `gruppa_id` (`gruppa_id`);
+
+--
+-- Индексы таблицы `granovskiy_teacher`
+--
+ALTER TABLE `granovskiy_teacher`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `otdel_id` (`otdel_id`);
+
+--
+-- Индексы таблицы `granovskiy_user`
+--
+ALTER TABLE `granovskiy_user`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `gender_id` (`gender_id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_classroom`
+--
+ALTER TABLE `granovskiy_classroom`
+  MODIFY `classroom_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_course`
+--
+ALTER TABLE `granovskiy_course`
+  MODIFY `course_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_day`
+--
+ALTER TABLE `granovskiy_day`
+  MODIFY `day_id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_gender`
+--
+ALTER TABLE `granovskiy_gender`
+  MODIFY `gender_id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_graduate`
+--
+ALTER TABLE `granovskiy_graduate`
+  MODIFY `graduate_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_graduate_time`
+--
+ALTER TABLE `granovskiy_graduate_time`
+  MODIFY `graduate_time_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_gruppa`
+--
+ALTER TABLE `granovskiy_gruppa`
+  MODIFY `gruppa_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_lesson_num`
+--
+ALTER TABLE `granovskiy_lesson_num`
+  MODIFY `lesson_num_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_otdel`
+--
+ALTER TABLE `granovskiy_otdel`
+  MODIFY `otdel_id` smallint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_special`
+--
+ALTER TABLE `granovskiy_special`
+  MODIFY `special_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `granovskiy_user`
+--
+ALTER TABLE `granovskiy_user`
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_course`
+--
+ALTER TABLE `granovskiy_course`
+  ADD CONSTRAINT `granovskiy_course_ibfk_1` FOREIGN KEY (`special_id`) REFERENCES `granovskiy_special` (`special_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_graduate`
+--
+ALTER TABLE `granovskiy_graduate`
+  ADD CONSTRAINT `granovskiy_graduate_ibfk_1` FOREIGN KEY (`gruppa_id`) REFERENCES `granovskiy_gruppa` (`gruppa_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_graduate_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `granovskiy_course` (`course_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_graduate_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `granovskiy_teacher` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_graduate_time`
+--
+ALTER TABLE `granovskiy_graduate_time`
+  ADD CONSTRAINT `granovskiy_graduate_time_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `granovskiy_classroom` (`classroom_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_graduate_time_ibfk_2` FOREIGN KEY (`day_id`) REFERENCES `granovskiy_day` (`day_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_graduate_time_ibfk_3` FOREIGN KEY (`lesson_num_id`) REFERENCES `granovskiy_lesson_num` (`lesson_num_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_graduate_time_ibfk_4` FOREIGN KEY (`graduate_id`) REFERENCES `granovskiy_graduate` (`graduate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_gruppa`
+--
+ALTER TABLE `granovskiy_gruppa`
+  ADD CONSTRAINT `granovskiy_gruppa_ibfk_1` FOREIGN KEY (`special_id`) REFERENCES `granovskiy_special` (`special_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_special`
+--
+ALTER TABLE `granovskiy_special`
+  ADD CONSTRAINT `granovskiy_special_ibfk_1` FOREIGN KEY (`otdel_id`) REFERENCES `granovskiy_otdel` (`otdel_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_student`
+--
+ALTER TABLE `granovskiy_student`
+  ADD CONSTRAINT `granovskiy_student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `granovskiy_user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_student_ibfk_2` FOREIGN KEY (`gruppa_id`) REFERENCES `granovskiy_gruppa` (`gruppa_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_teacher`
+--
+ALTER TABLE `granovskiy_teacher`
+  ADD CONSTRAINT `granovskiy_teacher_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `granovskiy_user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `granovskiy_teacher_ibfk_2` FOREIGN KEY (`otdel_id`) REFERENCES `granovskiy_otdel` (`otdel_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `granovskiy_user`
+--
+ALTER TABLE `granovskiy_user`
+  ADD CONSTRAINT `granovskiy_user_ibfk_1` FOREIGN KEY (`gender_id`) REFERENCES `granovskiy_gender` (`gender_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
