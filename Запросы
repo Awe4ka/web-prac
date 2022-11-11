@@ -1,0 +1,182 @@
+1 
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_gender.name, granovskiy_otdel.name 
+FROM granovskiy_user
+JOIN granovskiy_gender ON granovskiy_gender.gender_id = granovskiy_user.gender_id
+JOIN granovskiy_teacher ON granovskiy_teacher.user_id = granovskiy_user.user_id
+JOIN granovskiy_otdel ON granovskiy_teacher.otdel_id = granovskiy_otdel.otdel_id
+WHERE granovskiy_otdel.name = 'Информационные системы'
+
+2 
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_gruppa.name, granovskiy_special.name 
+FROM granovskiy_user
+JOIN granovskiy_student ON granovskiy_student.user_id = granovskiy_user.user_id
+JOIN granovskiy_gruppa ON granovskiy_gruppa.gruppa_id = granovskiy_student.gruppa_id
+JOIN granovskiy_special ON granovskiy_special.special_id = granovskiy_gruppa.special_id
+WHERE granovskiy_special.otdel_id = 1
+
+3
+SELECT granovskiy_course.name, granovskiy_course.hours, granovskiy_special.name 
+FROM granovskiy_course
+JOIN granovskiy_special ON granovskiy_special.special_id = granovskiy_course.special_id
+WHERE granovskiy_special.otdel_id = 3
+
+4
+SELECT name, date_begin, date_end 
+FROM granovskiy_gruppa
+WHERE granovskiy_gruppa.special_id = 1 
+
+5
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_gruppa.name 
+FROM granovskiy_gruppa
+JOIN granovskiy_student ON granovskiy_student.gruppa_id = granovskiy_gruppa.gruppa_id
+JOIN granovskiy_user ON granovskiy_user.user_id = granovskiy_student.user_id
+JOIN granovskiy_special ON granovskiy_special.special_id = granovskiy_gruppa.special_id
+JOIN granovskiy_course ON granovskiy_course.special_id = granovskiy_special.special_id
+WHERE granovskiy_course.name = 'Мультимедиа технология'
+
+6 
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_course.name, granovskiy_course.hours, granovskiy_gruppa.name
+FROM granovskiy_user 
+JOIN granovskiy_teacher ON granovskiy_user.user_id = granovskiy_teacher.user_id
+JOIN granovskiy_graduate ON granovskiy_graduate.user_id = granovskiy_teacher.user_id
+JOIN granovskiy_gruppa ON granovskiy_gruppa.gruppa_id = granovskiy_graduate.gruppa_id
+JOIN granovskiy_course ON granovskiy_course.course_id = granovskiy_graduate.course_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate_time.graduate_id = granovskiy_graduate.graduate_id
+JOIN granovskiy_lesson_num ON granovskiy_lesson_num.lesson_num_id = granovskiy_graduate_time.lesson_num_id
+WHERE granovskiy_lesson_num.time_lesson BETWEEN '08:30:00' AND '15:00:00';
+
+7
+SELECT COUNT(*), granovskiy_otdel.name 
+FROM granovskiy_otdel
+JOIN granovskiy_special ON granovskiy_special.otdel_id = granovskiy_otdel.otdel_id
+JOIN granovskiy_gruppa ON granovskiy_gruppa.special_id = granovskiy_special.special_id
+LEFT OUTER JOIN granovskiy_graduate ON granovskiy_graduate.gruppa_id = granovskiy_gruppa.gruppa_id
+GROUP BY granovskiy_otdel.name
+
+8
+SELECT COUNT(*), granovskiy_otdel.name 
+FROM granovskiy_otdel
+JOIN granovskiy_special ON granovskiy_special.otdel_id = granovskiy_otdel.otdel_id
+JOIN granovskiy_course ON granovskiy_special.special_id = granovskiy_course.special_id
+GROUP BY granovskiy_otdel.otdel_id
+
+9
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic 
+FROM granovskiy_teacher
+JOIN granovskiy_user ON granovskiy_user.user_id = granovskiy_teacher.user_id
+LEFT OUTER JOIN granovskiy_graduate ON granovskiy_graduate.user_id = granovskiy_teacher.user_id
+WHERE granovskiy_graduate.user_id IS null
+
+10
+SELECT granovskiy_course.name 
+FROM granovskiy_course
+LEFT OUTER JOIN granovskiy_graduate ON granovskiy_graduate.course_id = granovskiy_course.course_id
+WHERE granovskiy_graduate.course_id IS null
+
+11
+SELECT granovskiy_special.name 
+FROM granovskiy_special 
+LEFT OUTER JOIN granovskiy_course ON granovskiy_course.special_id = granovskiy_special.special_id
+WHERE granovskiy_course.special_id IS null
+
+12
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic 
+FROM granovskiy_student 
+JOIN granovskiy_user ON granovskiy_student.user_id=granovskiy_user.user_id
+JOIN granovskiy_gender ON granovskiy_user.gender_id=granovskiy_gender.gender_id 
+JOIN granovskiy_gruppa ON granovskiy_student.gruppa_id=granovskiy_gruppa.gruppa_id
+JOIN granovskiy_graduate ON granovskiy_graduate.gruppa_id=granovskiy_gruppa.gruppa_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate.graduate_id=granovskiy_graduate_time.graduate_id
+JOIN granovskiy_lesson_num ON granovskiy_graduate_time.lesson_num_id=granovskiy_lesson_num.lesson_num_id
+WHERE granovskiy_lesson_num.time_lesson BETWEEN '10:30:00' AND '18:30:00' AND granovskiy_gender.gender_id=2
+
+13
+SELECT granovskiy_course.name, granovskiy_lesson_num.name 
+FROM granovskiy_course 
+JOIN granovskiy_graduate ON granovskiy_course.course_id=granovskiy_graduate.course_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate.graduate_id=granovskiy_graduate_time.graduate_id
+JOIN granovskiy_lesson_num ON granovskiy_graduate_time.lesson_num_id=granovskiy_lesson_num.lesson_num_id 
+WHERE granovskiy_lesson_num.time_lesson BETWEEN '12:30:00' AND '18:30:00'
+
+14
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic 
+FROM granovskiy_student
+JOIN granovskiy_user ON granovskiy_user.user_id = granovskiy_student.user_id
+JOIN granovskiy_gruppa ON granovskiy_student.gruppa_id = granovskiy_gruppa.gruppa_id
+JOIN granovskiy_graduate ON granovskiy_graduate.gruppa_id = granovskiy_gruppa.gruppa_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate_time.graduate_id = granovskiy_graduate.graduate_id
+JOIN granovskiy_day ON granovskiy_day.day_id = granovskiy_graduate_time.day_id
+WHERE granovskiy_day.name = 'Пятница'
+
+15
+SELECT granovskiy_day.name 
+FROM granovskiy_day
+LEFT OUTER JOIN granovskiy_graduate_time ON granovskiy_graduate_time.day_id = granovskiy_day.day_id
+WHERE granovskiy_graduate_time.day_id IS null
+
+16
+SELECT granovskiy_special.name 
+FROM granovskiy_special
+JOIN granovskiy_course ON granovskiy_course.special_id = granovskiy_special.special_id
+JOIN granovskiy_graduate ON granovskiy_graduate.course_id = granovskiy_course.course_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate_time.graduate_id = granovskiy_graduate.graduate_id
+JOIN granovskiy_day ON granovskiy_day.day_id = granovskiy_graduate_time.day_id
+WHERE granovskiy_day.name = 'Среда'
+
+17
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_otdel.name 
+FROM granovskiy_teacher
+JOIN granovskiy_user ON granovskiy_user.user_id = granovskiy_teacher.user_id
+JOIN granovskiy_otdel ON granovskiy_otdel.otdel_id = granovskiy_teacher.otdel_id
+JOIN granovskiy_graduate ON granovskiy_graduate.user_id = granovskiy_teacher.user_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate_time.graduate_id = granovskiy_graduate.graduate_id
+JOIN granovskiy_day ON granovskiy_day.day_id = granovskiy_graduate_time.day_id
+WHERE granovskiy_day.name = 'Пятница'
+
+18
+SELECT granovskiy_user.lastname, granovskiy_user.firstname, granovskiy_user.patronomic, granovskiy_gruppa.name, granovskiy_special.name 
+FROM granovskiy_student 
+JOIN granovskiy_user ON granovskiy_student.user_id=granovskiy_user.user_id
+JOIN granovskiy_gruppa ON granovskiy_student.gruppa_id=granovskiy_gruppa.gruppa_id
+JOIN granovskiy_special ON granovskiy_gruppa.special_id=granovskiy_special.special_id
+JOIN granovskiy_graduate ON granovskiy_gruppa.gruppa_id=granovskiy_graduate.gruppa_id
+JOIN granovskiy_course ON granovskiy_graduate.course_id=granovskiy_course.course_id
+WHERE granovskiy_course.hours>12
+
+19
+SELECT granovskiy_course.name, granovskiy_course.hours, granovskiy_special.name 
+FROM granovskiy_course
+JOIN granovskiy_special ON granovskiy_special.special_id = granovskiy_course.special_id
+JOIN granovskiy_otdel ON granovskiy_otdel.otdel_id = granovskiy_special.otdel_id
+JOIN granovskiy_graduate ON granovskiy_graduate.course_id = granovskiy_course.course_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate.graduate_id = granovskiy_graduate_time.graduate_id
+JOIN granovskiy_day ON granovskiy_day.day_id = granovskiy_graduate_time.day_id
+WHERE granovskiy_otdel.name = 'Технические специальности' AND granovskiy_day.name = 'Среда' OR granovskiy_day.name = 'Пятница'
+
+20
+SELECT granovskiy_otdel.name 
+FROM granovskiy_otdel 
+JOIN granovskiy_teacher ON granovskiy_otdel.otdel_id=granovskiy_teacher.otdel_id
+JOIN granovskiy_graduate ON granovskiy_teacher.user_id=granovskiy_graduate.user_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate.graduate_id=granovskiy_graduate_time.graduate_id
+JOIN granovskiy_lesson_num ON granovskiy_graduate_time.lesson_num_id=granovskiy_lesson_num.lesson_num_id
+JOIN granovskiy_day ON granovskiy_graduate_time.day_id=granovskiy_day.day_id
+WHERE granovskiy_lesson_num.time_lesson BETWEEN '09:00:00' AND '12:00:00' AND granovskiy_day.day_id=2
+
+21
+SELECT granovskiy_day.name, COUNT(*) 
+FROM granovskiy_day
+JOIN granovskiy_graduate_time ON granovskiy_graduate_time.day_id = granovskiy_day.day_id
+JOIN granovskiy_graduate ON granovskiy_graduate.graduate_id = granovskiy_graduate_time.graduate_id
+JOIN granovskiy_course ON granovskiy_graduate.course_id = granovskiy_course.course_id
+GROUP BY granovskiy_course.course_id, granovskiy_day.name
+
+22
+SELECT granovskiy_special.name, granovskiy_lesson_num.name, granovskiy_day.name 
+FROM granovskiy_special 
+JOIN granovskiy_course ON granovskiy_special.special_id=granovskiy_course.special_id
+JOIN granovskiy_graduate ON granovskiy_course.course_id=granovskiy_graduate.course_id
+JOIN granovskiy_graduate_time ON granovskiy_graduate.graduate_id=granovskiy_graduate_time.graduate_id
+JOIN granovskiy_lesson_num ON granovskiy_graduate_time.lesson_num_id=granovskiy_lesson_num.lesson_num_id 
+JOIN granovskiy_day ON granovskiy_graduate_time.day_id=granovskiy_day.day_id
+WHERE granovskiy_lesson_num.time_lesson BETWEEN '15:00:00' AND '18:00:00' AND granovskiy_day.day_id BETWEEN 4 AND 6
